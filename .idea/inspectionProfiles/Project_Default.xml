@@ -1,0 +1,51 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <list>
+          <option value="asttokens" />
+          <option value="backcall" />
+          <option value="bottle" />
+          <option value="cachetools" />
+          <option value="clr-loader" />
+          <option value="decorator" />
+          <option value="dnspython" />
+          <option value="executing" />
+          <option value="google-auth" />
+          <option value="google-auth-oauthlib" />
+          <option value="grpcio" />
+          <option value="ipython" />
+          <option value="jedi" />
+          <option value="Markdown" />
+          <option value="matplotlib-inline" />
+          <option value="oauthlib" />
+          <option value="parso" />
+          <option value="pickleshare" />
+          <option value="prompt-toolkit" />
+          <option value="proxy-tools" />
+          <option value="pure-eval" />
+          <option value="pyasn1" />
+          <option value="pyasn1-modules" />
+          <option value="Pygments" />
+          <option value="pymongo" />
+          <option value="pythonnet" />
+          <option value="pywebview" />
+          <option value="requests-oauthlib" />
+          <option value="rsa" />
+          <option value="sentry-sdk" />
+          <option value="stack-data" />
+          <option value="tensorboard" />
+          <option value="tensorboard-data-server" />
+          <option value="tensorboard-plugin-wit" />
+          <option value="thop" />
+          <option value="torchaudio" />
+          <option value="traitlets" />
+          <option value="wcwidth" />
+          <option value="mediapipe" />
+          <option value="scikit-learn" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>

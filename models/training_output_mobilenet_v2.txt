@@ -1,0 +1,167 @@
+2023-07-25 22:34:30.904169: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2023-07-25 22:34:30.905978: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2023-07-25 22:34:30.945040: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2023-07-25 22:34:30.945461: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2023-07-25 22:34:31.611696: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+Found 3408 files belonging to 28 classes.
+Using 2727 files for training.
+Found 3408 files belonging to 28 classes.
+Using 681 files for validation.
+Class names:
+['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'del', 'space']
+Base model layer count: 155
+Model: "model"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #
+=================================================================
+ input_2 (InputLayer)        [(None, 160, 160, 3)]     0
+
+ sequential (Sequential)     (None, 160, 160, 3)       0
+
+ tf.math.truediv (TFOpLambd  (None, 160, 160, 3)       0
+ a)
+
+ tf.math.subtract (TFOpLamb  (None, 160, 160, 3)       0
+ da)
+
+ mobilenetv2_1.00_160 (Func  (None, 1280)              2257984
+ tional)
+
+ dropout (Dropout)           (None, 1280)              0
+
+ outputs (Dense)             (None, 28)                35868
+
+=================================================================
+Total params: 2293852 (8.75 MB)
+Trainable params: 35868 (140.11 KB)
+Non-trainable params: 2257984 (8.61 MB)
+_________________________________________________________________
+Trainable variables in our model: 2
+Epoch 1/64
+43/43 [==============================] - 19s 393ms/step - loss: 2.7170 - accuracy: 0.2692 - val_loss: 1.8422 - val_accuracy: 0.4376
+Epoch 2/64
+43/43 [==============================] - 16s 367ms/step - loss: 1.3191 - accuracy: 0.6161 - val_loss: 1.4221 - val_accuracy: 0.5536
+Epoch 3/64
+43/43 [==============================] - 16s 366ms/step - loss: 0.9828 - accuracy: 0.7033 - val_loss: 1.2999 - val_accuracy: 0.6241
+Epoch 4/64
+43/43 [==============================] - 16s 366ms/step - loss: 0.8130 - accuracy: 0.7631 - val_loss: 1.1665 - val_accuracy: 0.6520
+Epoch 5/64
+43/43 [==============================] - 16s 368ms/step - loss: 0.6987 - accuracy: 0.7869 - val_loss: 1.0634 - val_accuracy: 0.6740
+Epoch 6/64
+43/43 [==============================] - 16s 367ms/step - loss: 0.6347 - accuracy: 0.8078 - val_loss: 1.0425 - val_accuracy: 0.6902
+Epoch 7/64
+43/43 [==============================] - 16s 366ms/step - loss: 0.6173 - accuracy: 0.8166 - val_loss: 0.9489 - val_accuracy: 0.7122
+Epoch 8/64
+43/43 [==============================] - 16s 366ms/step - loss: 0.5424 - accuracy: 0.8416 - val_loss: 0.9507 - val_accuracy: 0.7137
+Epoch 9/64
+43/43 [==============================] - 16s 367ms/step - loss: 0.5131 - accuracy: 0.8497 - val_loss: 0.9468 - val_accuracy: 0.7283
+Epoch 10/64
+43/43 [==============================] - 16s 367ms/step - loss: 0.4983 - accuracy: 0.8596 - val_loss: 0.9722 - val_accuracy: 0.7254
+Epoch 11/64
+43/43 [==============================] - 16s 367ms/step - loss: 0.4701 - accuracy: 0.8610 - val_loss: 0.9187 - val_accuracy: 0.7606
+Epoch 12/64
+43/43 [==============================] - 16s 365ms/step - loss: 0.4386 - accuracy: 0.8702 - val_loss: 0.9423 - val_accuracy: 0.7357
+Epoch 13/64
+43/43 [==============================] - 16s 366ms/step - loss: 0.4437 - accuracy: 0.8640 - val_loss: 0.8917 - val_accuracy: 0.7460
+Epoch 14/64
+43/43 [==============================] - ETA: 0s - loss: 0.4335 - accuracy: 0.8757Restoring model weights from the end of the best epoch: 11.
+43/43 [==============================] - 16s 367ms/step - loss: 0.4335 - accuracy: 0.8757 - val_loss: 0.9417 - val_accuracy: 0.7298
+Epoch 14: early stopping
+Model: "model"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #
+=================================================================
+ input_2 (InputLayer)        [(None, 160, 160, 3)]     0
+
+ sequential (Sequential)     (None, 160, 160, 3)       0
+
+ tf.math.truediv (TFOpLambd  (None, 160, 160, 3)       0
+ a)
+
+ tf.math.subtract (TFOpLamb  (None, 160, 160, 3)       0
+ da)
+
+ mobilenetv2_1.00_160 (Func  (None, 1280)              2257984
+ tional)
+
+ dropout (Dropout)           (None, 1280)              0
+
+ outputs (Dense)             (None, 28)                35868
+
+=================================================================
+Total params: 2293852 (8.75 MB)
+Trainable params: 2074652 (7.91 MB)
+Non-trainable params: 219200 (856.25 KB)
+_________________________________________________________________
+Number of trainable variables: 77
+Epoch 12/43
+43/43 [==============================] - 33s 551ms/step - loss: 0.4151 - accuracy: 0.8801 - val_loss: 0.7246 - val_accuracy: 0.7930
+Epoch 13/43
+43/43 [==============================] - 23s 537ms/step - loss: 0.2804 - accuracy: 0.9219 - val_loss: 0.6935 - val_accuracy: 0.8120
+Epoch 14/43
+43/43 [==============================] - 23s 536ms/step - loss: 0.2602 - accuracy: 0.9307 - val_loss: 0.6270 - val_accuracy: 0.8120
+Epoch 15/43
+43/43 [==============================] - 23s 534ms/step - loss: 0.2004 - accuracy: 0.9487 - val_loss: 0.6328 - val_accuracy: 0.8267
+Epoch 16/43
+43/43 [==============================] - 23s 536ms/step - loss: 0.1755 - accuracy: 0.9531 - val_loss: 0.5434 - val_accuracy: 0.8443
+Epoch 17/43
+43/43 [==============================] - 23s 535ms/step - loss: 0.1265 - accuracy: 0.9703 - val_loss: 0.5560 - val_accuracy: 0.8620
+Epoch 18/43
+43/43 [==============================] - 23s 535ms/step - loss: 0.1194 - accuracy: 0.9762 - val_loss: 0.5178 - val_accuracy: 0.8737
+Epoch 19/43
+43/43 [==============================] - 23s 535ms/step - loss: 0.1192 - accuracy: 0.9747 - val_loss: 0.5267 - val_accuracy: 0.8722
+Epoch 20/43
+43/43 [==============================] - 23s 535ms/step - loss: 0.0905 - accuracy: 0.9835 - val_loss: 0.5089 - val_accuracy: 0.8781
+Epoch 21/43
+43/43 [==============================] - 23s 534ms/step - loss: 0.1119 - accuracy: 0.9762 - val_loss: 0.4863 - val_accuracy: 0.8737
+Epoch 22/43
+43/43 [==============================] - 23s 535ms/step - loss: 0.0973 - accuracy: 0.9824 - val_loss: 0.4338 - val_accuracy: 0.8855
+Epoch 23/43
+43/43 [==============================] - 23s 535ms/step - loss: 0.0883 - accuracy: 0.9828 - val_loss: 0.5349 - val_accuracy: 0.8708
+Epoch 24/43
+43/43 [==============================] - 23s 534ms/step - loss: 0.0814 - accuracy: 0.9857 - val_loss: 0.4753 - val_accuracy: 0.8796
+Epoch 25/43
+43/43 [==============================] - 23s 535ms/step - loss: 0.0820 - accuracy: 0.9864 - val_loss: 0.4803 - val_accuracy: 0.8899
+Epoch 26/43
+43/43 [==============================] - 23s 536ms/step - loss: 0.0745 - accuracy: 0.9886 - val_loss: 0.4012 - val_accuracy: 0.8972
+Epoch 27/43
+43/43 [==============================] - 23s 534ms/step - loss: 0.0570 - accuracy: 0.9956 - val_loss: 0.4049 - val_accuracy: 0.8972
+Epoch 28/43
+43/43 [==============================] - 23s 534ms/step - loss: 0.0669 - accuracy: 0.9894 - val_loss: 0.4302 - val_accuracy: 0.8884
+Epoch 29/43
+43/43 [==============================] - 23s 535ms/step - loss: 0.0713 - accuracy: 0.9897 - val_loss: 0.3562 - val_accuracy: 0.9148
+Epoch 30/43
+43/43 [==============================] - 23s 534ms/step - loss: 0.0656 - accuracy: 0.9897 - val_loss: 0.3893 - val_accuracy: 0.9119
+Epoch 31/43
+43/43 [==============================] - 23s 535ms/step - loss: 0.0657 - accuracy: 0.9923 - val_loss: 0.3805 - val_accuracy: 0.9178
+Epoch 32/43
+43/43 [==============================] - 23s 535ms/step - loss: 0.0599 - accuracy: 0.9919 - val_loss: 0.4101 - val_accuracy: 0.9031
+Epoch 33/43
+43/43 [==============================] - 23s 535ms/step - loss: 0.0630 - accuracy: 0.9927 - val_loss: 0.3958 - val_accuracy: 0.9016
+Epoch 34/43
+43/43 [==============================] - ETA: 0s - loss: 0.0566 - accuracy: 0.9930Restoring model weights from the end of the best epoch: 31.
+43/43 [==============================] - 23s 536ms/step - loss: 0.0566 - accuracy: 0.9930 - val_loss: 0.4628 - val_accuracy: 0.8957
+Epoch 34: early stopping
+2023-07-25 22:47:42.143533: W tensorflow/compiler/mlir/lite/python/tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+2023-07-25 22:47:42.143572: W tensorflow/compiler/mlir/lite/python/tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+2023-07-25 22:47:42.144003: I tensorflow/cc/saved_model/reader.cc:45] Reading SavedModel from: /tmp/tmpyz97epu5
+2023-07-25 22:47:42.164334: I tensorflow/cc/saved_model/reader.cc:91] Reading meta graph with tags { serve }
+2023-07-25 22:47:42.164383: I tensorflow/cc/saved_model/reader.cc:132] Reading SavedModel debug info (if present) from: /tmp/tmpyz97epu5
+2023-07-25 22:47:42.211520: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:375] MLIR V1 optimization pass is not enabled
+2023-07-25 22:47:42.237453: I tensorflow/cc/saved_model/loader.cc:231] Restoring SavedModel bundle.
+2023-07-25 22:47:42.825327: I tensorflow/cc/saved_model/loader.cc:215] Running initialization op on SavedModel bundle at path: /tmp/tmpyz97epu5
+2023-07-25 22:47:43.019975: I tensorflow/cc/saved_model/loader.cc:314] SavedModel load for tags { serve }; Status: success: OK. Took 875973 microseconds.
+2023-07-25 22:47:43.212801: I tensorflow/compiler/mlir/tensorflow/utils/dump_mlir_util.cc:255] disabling MLIR crash reproducer, set env var `MLIR_CRASH_REPRODUCER_DIRECTORY` to enable.
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+
+        TFLite model agrees with original model on 50
+        of 50 examples (100.0%).
+
+
+        TFlow model is accurate on 0
+        of 50 examples (0.0%).
+
+        TFLite model is accurate on 0
+        of 50 examples (0.0%).
+python train.py  5402.46s user 31.42s system 669% cpu 13:32.16 total

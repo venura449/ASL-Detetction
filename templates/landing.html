@@ -1,0 +1,243 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="hero">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0 animate-fade-in">
+                <span class="badge bg-soft-primary text-primary mb-3 px-3 py-2 rounded-pill"
+                    style="background: rgba(99, 102, 241, 0.1);">AI-Powered Recognition</span>
+                <h1 class="hero-title">Breaking Barriers with Visual Speech</h1>
+                <p class="hero-subtitle">
+                    Sign Pro uses cutting-edge machine learning to translate American Sign Language into speech and text
+                    in real-time. Empowering the Deaf and Hard of Hearing community with a voice that is felt and seen.
+                </p>
+                <div class="d-flex flex-sm-row flex-column gap-3">
+                    <a href="/detect" class="btn-primary-custom">
+                        Start Detection <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="#AboutASL" class="btn btn-outline-dark rounded-pill px-4 py-3" style="font-weight: 600;">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 animate-fade-in" style="animation-delay: 0.2s;">
+                <div class="hero-video-container">
+                    <video autoplay muted loop playsinline width="100%">
+                        <source src="{{url_for('static', filename='Hand Motion.mp4')}}" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section id="AboutASL" class="py-5" style="background: white;">
+    <div class="container py-5">
+        <div class="row justify-content-center text-center mb-5">
+            <div class="col-lg-8">
+                <h2 class="display-5 fw-800 mb-4" style="font-weight: 800;">What is ASL?</h2>
+                <p class="lead text-secondary">
+                    American Sign Language is a complete, natural language that serves as the primary language for many
+                    Deaf and Hard of Hearing people in North America.
+                </p>
+            </div>
+        </div>
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <div class="p-4 rounded-4" style="background: #f8fafc; border: 1px solid #e2e8f0;">
+                    <p class="mb-4">
+                        ASL is expressed by movements of the hands and face. It is the fourth most used language in the
+                        United States. ASL is not a universal language; each country has its own sign language, much
+                        like spoken languages.
+                    </p>
+                    <div class="d-flex align-items-start gap-3 mb-3">
+                        <div class="bg-primary text-white p-2 rounded-3">
+                            <i class="fas fa-hand-sparkles"></i>
+                        </div>
+                        <div>
+                            <h4 class="h5 fw-bold">Visual Grammar</h4>
+                            <p class="text-secondary small">Uses handshapes, movements, and facial expressions to convey
+                                complex grammar.</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="bg-primary text-white p-2 rounded-3">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                        <div>
+                            <h4 class="h5 fw-bold">Deep Learning</h4>
+                            <p class="text-secondary small">Sign Pro leverages neural networks to bridge the gap between
+                                visual gestures and text.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <img src="{{url_for('static', filename='ASLchart.png')}}" class="img-fluid rounded-4 shadow-lg"
+                    alt="ASL Alphabet Chart">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="English2ASL" class="py-5" style="background: #f8fafc;">
+    <div class="container py-5">
+        <div class="row justify-content-center text-center mb-5">
+            <div class="col-lg-8">
+                <h2 class="display-5 fw-800 mb-4" style="font-weight: 800;">English to ASL</h2>
+                <p class="lead text-secondary">Visualize how English letters translate into ASL hand gestures.</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                    <div
+                        class="card-header bg-white border-0 py-3 px-4 d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 fw-bold">Visualizer</h5>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-soft-danger rounded-circle" onclick="DeleteAll()"
+                                style="width: 32px; height: 32px; background: #fee2e2; color: #ef4444; border: none;">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body bg-light" style="min-height: 250px;">
+                        <div id="sign-image-box"
+                            class="d-flex flex-wrap gap-2 justify-content-center align-items-center">
+                            <p class="text-secondary mb-0 opacity-50">Click letters below to generate signs...</p>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-0 p-4">
+                        <div id="alphabets-list" class="d-flex flex-wrap gap-2 justify-content-center">
+                            <!-- JS will populate this -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .alpha-btn {
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .alpha-btn:hover {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(99, 102, 241, 0.2);
+    }
+
+    .alpha-btn.special {
+        width: auto;
+        padding: 0 1rem;
+    }
+
+    .sign-card {
+        text-align: center;
+        background: white;
+        padding: 5px;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e2e8f0;
+        animation: fadeIn 0.3s ease-out;
+    }
+
+    .sign-card img {
+        width: 80px;
+        border-radius: 8px;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .sign-card span {
+        font-weight: 700;
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+    }
+</style>
+
+<script>
+    const alphabetList = document.getElementById('alphabets-list');
+    const signBox = document.getElementById('sign-image-box');
+
+    function loadAlphabets() {
+        alphabetList.innerHTML = '';
+        for (let i = 0; i < 26; i++) {
+            const char = String.fromCharCode(i + 65);
+            const btn = document.createElement('button');
+            btn.className = 'alpha-btn';
+            btn.textContent = char;
+            btn.onclick = () => addSign(char);
+            alphabetList.appendChild(btn);
+        }
+
+        // Add Space and Del
+        const spaceBtn = document.createElement('button');
+        spaceBtn.className = 'alpha-btn special';
+        spaceBtn.textContent = 'Space';
+        spaceBtn.onclick = () => addSign('space');
+        alphabetList.appendChild(spaceBtn);
+
+        const delBtn = document.createElement('button');
+        delBtn.className = 'alpha-btn special';
+        delBtn.innerHTML = '<i class="fas fa-backspace"></i>';
+        delBtn.onclick = deleteLast;
+        alphabetList.appendChild(delBtn);
+    }
+
+    function addSign(char) {
+        if (signBox.querySelector('p')) {
+            signBox.innerHTML = '';
+        }
+
+        const card = document.createElement('div');
+        card.className = 'sign-card';
+
+        const img = document.createElement('img');
+        img.src = `static/symbols/${char.toUpperCase()}.jpg`;
+        img.onerror = () => { img.src = 'static/symbols/space.jpg'; }; // Fallback
+
+        const label = document.createElement('span');
+        label.textContent = char === 'space' ? '___' : char;
+
+        card.appendChild(img);
+        card.appendChild(label);
+        signBox.appendChild(card);
+
+        signBox.scrollTo({ left: signBox.scrollWidth, behavior: 'smooth' });
+    }
+
+    function deleteLast() {
+        if (signBox.lastElementChild && signBox.lastElementChild.className === 'sign-card') {
+            signBox.removeChild(signBox.lastElementChild);
+        }
+
+        if (signBox.childElementCount === 0) {
+            signBox.innerHTML = '<p class="text-secondary mb-0 opacity-50">Click letters below to generate signs...</p>';
+        }
+    }
+
+    function DeleteAll() {
+        signBox.innerHTML = '<p class="text-secondary mb-0 opacity-50">Click letters below to generate signs...</p>';
+    }
+
+    document.addEventListener('DOMContentLoaded', loadAlphabets);
+</script>
+{% endblock %}

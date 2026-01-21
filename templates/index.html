@@ -1,0 +1,266 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="detection-container animate-fade-in">
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-6">
+            <h1 class="fw-800 mb-1" style="font-weight: 800; font-size: 2.5rem;">Live Detection</h1>
+            <p class="text-secondary">Position your hand within the frame for real-time translation.</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+            <div id="tip-system" class="glass p-3 rounded-4 d-inline-flex align-items-center gap-3"
+                style="max-width: 400px; border: 1px solid #e2e8f0; background: white;">
+                <div class="bg-primary text-white p-2 rounded-circle"
+                    style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-lightbulb small"></i>
+                </div>
+                <p id="tip-text" class="small mb-0 text-start" style="font-weight: 500;">Place your hand in the white
+                    box for detection.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="detection-grid">
+        <!-- Camera Section -->
+        <div class="camera-card">
+            <video autoplay="true" id="videoElement" style="display:none;"></video>
+            <canvas id="canvasOutput"></canvas>
+
+            <div class="prediction-overlay">
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="bg-success rounded-circle" style="width: 8px; height: 8px;"></span>
+                    <span class="text-uppercase small fw-bold opacity-75">Live Prediction</span>
+                </div>
+                <div class="d-flex align-items-baseline gap-2">
+                    <span id="live-letter" class="h1 mb-0 fw-800">--</span>
+                    <span id="confidence" class="small fw-bold text-success">0%</span>
+                </div>
+            </div>
+
+            <!-- Backend Preview Toggle Overlay -->
+            <div id="preview-mini" class="position-absolute bottom-0 start-0 m-3 p-2 glass rounded-3 border-0 d-none"
+                style="width: 120px; aspect-ratio: 4/3; background: rgba(0,0,0,0.4);">
+                <img id="preview" class="img-fluid rounded-2" style="width: 100%; height: 100%; object-fit: cover;">
+                <div
+                    class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
+                    <span class="badge bg-dark small" style="font-size: 0.6rem;">BACKEND</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Console Section -->
+        <div class="card border-0 shadow-lg rounded-4 overflow-hidden console-card glass" style="background: white;">
+            <!-- Settings Overlay -->
+            <div id="settings-panel" class="settings-overlay">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="fw-bold mb-0">Settings</h3>
+                    <button class="btn btn-soft-dark rounded-circle" onclick="toggleSettings()"
+                        style="background: #f1f5f9; border: none; width: 40px; height: 40px;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div class="mb-5">
+                    <h6 class="text-uppercase small fw-bold text-primary mb-3">Recognition Parameters</h6>
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between mb-2">
+                            <label class="form-label mb-0 small fw-bold">Consecutive Acceptance</label>
+                            <span id="car-value" class="badge bg-primary rounded-pill">5</span>
+                        </div>
+                        <input type="range" class="form-range" min="3" max="7" value="5" step="1" id="car">
+                    </div>
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between mb-2">
+                            <label class="form-label mb-0 small fw-bold">Confidence Threshold</label>
+                            <span id="threshold-value" class="badge bg-primary rounded-pill">90%</span>
+                        </div>
+                        <input type="range" class="form-range" min="80" max="100" value="90" step="1" id="threshold">
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <h6 class="text-uppercase small fw-bold text-primary mb-3">Speech Synthesis</h6>
+                    <div class="mb-4">
+                        <label class="form-label small fw-bold">Voice Model</label>
+                        <select id="voiceSelect" class="form-select rounded-3 border-light"></select>
+                    </div>
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between mb-2">
+                            <label class="form-label mb-0 small fw-bold">Speech Rate</label>
+                            <span id="rate-value" class="badge bg-primary rounded-pill">1.0</span>
+                        </div>
+                        <input type="range" class="form-range" min="0.5" max="2" value="1" step="0.1" id="rate">
+                    </div>
+                </div>
+            </div>
+
+            <div class="console-header">
+                <div class="d-flex align-items-center gap-2">
+                    <div class="bg-primary-soft rounded-3 p-2"
+                        style="background: rgba(99, 102, 241, 0.1); color: var(--primary);">
+                        <i class="fas fa-terminal"></i>
+                    </div>
+                    <span class="fw-bold">Interpreted Output</span>
+                </div>
+                <div class="console-controls">
+                    <button class="control-btn btn-settings" onclick="toggleSettings()" title="Settings">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                    <button id="backend-toggle" class="control-btn btn-backend" onclick="toggleBackend()"
+                        title="Toggle Backend View">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="control-btn btn-power" onclick="RecordButton()" title="Toggle Camera">
+                        <i class="fas fa-power-off"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex-grow-1 d-flex flex-column gap-3">
+                <textarea class="interpreted-textarea" id="interpreted-text"
+                    placeholder="Your translated gestures will appear here..." readonly></textarea>
+
+                <div class="d-flex gap-2">
+                    <button id="speak"
+                        class="btn btn-primary rounded-pill px-4 flex-grow-1 d-flex align-items-center justify-content-center gap-2"
+                        style="background: var(--primary); border: none; height: 56px; font-weight: 600;">
+                        <i class="fas fa-play"></i> Speak Text
+                    </button>
+                    <button id="stop-audio" class="btn btn-dark rounded-pill" style="display: none; width: 56px;">
+                        <i class="fas fa-stop"></i>
+                    </button>
+                    <button class="btn btn-outline-danger rounded-pill px-4" onclick="DeleteText()"
+                        style="border-width: 2px;">
+                        <i class="fas fa-eraser me-2"></i> Clear
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{url_for('static', filename='connection.js')}}" type="text/javascript"></script>
+
+<script>
+    // System Tips
+    const allTips = [
+        "Position your hand inside the white box clearly.",
+        "Ensure your environment is well-lit for better accuracy.",
+        "Hold your gesture for a moment to let the AI confirm.",
+        "You can adjust recognition sensitivity in settings.",
+        "Use 'Clear' to start a new sentence.",
+        "Check 'Backend View' to see what the AI sees."
+    ];
+    let tipIndex = 0;
+    setInterval(() => {
+        const tipEl = document.getElementById('tip-text');
+        tipEl.style.opacity = 0;
+        setTimeout(() => {
+            tipIndex = (tipIndex + 1) % allTips.length;
+            tipEl.innerText = allTips[tipIndex];
+            tipEl.style.opacity = 1;
+        }, 300);
+    }, 8000);
+
+    // Toggle Panels
+    function toggleSettings() {
+        document.getElementById('settings-panel').classList.toggle('active');
+    }
+
+    function toggleBackend() {
+        const preview = document.getElementById('preview-mini');
+        const btn = document.getElementById('backend-toggle');
+        if (preview.classList.contains('d-none')) {
+            preview.classList.remove('d-none');
+            btn.classList.add('bg-success', 'text-white');
+        } else {
+            preview.classList.add('d-none');
+            btn.classList.remove('bg-success', 'text-white');
+        }
+    }
+
+    // Settings Updates
+    document.getElementById('car').oninput = function () {
+        document.getElementById('car-value').innerText = this.value;
+    };
+    document.getElementById('threshold').oninput = function () {
+        document.getElementById('threshold-value').innerText = this.value + '%';
+    };
+    document.getElementById('rate').oninput = function () {
+        document.getElementById('rate-value').innerText = parseFloat(this.value).toFixed(1);
+    };
+
+    // Text to Speech
+    let synth = window.speechSynthesis;
+    const voiceSelect = document.getElementById('voiceSelect');
+
+    function populateVoices() {
+        const voices = synth.getVoices();
+        voiceSelect.innerHTML = '';
+        voices.forEach((voice, i) => {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = `${voice.name} (${voice.lang})`;
+            voiceSelect.appendChild(option);
+        });
+    }
+
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+        speechSynthesis.onvoiceschanged = populateVoices;
+    }
+    populateVoices();
+
+    document.getElementById('speak').onclick = function () {
+        const text = document.getElementById('interpreted-text').value;
+        if (!text) return;
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        const voices = synth.getVoices();
+        utterance.voice = voices[voiceSelect.value];
+        utterance.rate = document.getElementById('rate').value;
+
+        document.getElementById('stop-audio').style.display = 'block';
+        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Speaking...';
+
+        utterance.onend = () => {
+            document.getElementById('stop-audio').style.display = 'none';
+            this.innerHTML = '<i class="fas fa-play"></i> Speak Text';
+        };
+
+        synth.speak(utterance);
+    };
+
+    document.getElementById('stop-audio').onclick = () => {
+        synth.cancel();
+    };
+
+    function DeleteText() {
+        document.getElementById('interpreted-text').value = '';
+    }
+</script>
+
+<style>
+    .bg-primary-soft {
+        background: rgba(99, 102, 241, 0.1);
+    }
+
+    .btn-soft-dark:hover {
+        background: #e2e8f0 !important;
+    }
+
+    .btn-soft-danger:hover {
+        background: #fecaca !important;
+    }
+
+    label {
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+        background: var(--primary);
+        border: 2px solid white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+</style>
+{% endblock %}
